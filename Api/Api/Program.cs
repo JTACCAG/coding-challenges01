@@ -1,10 +1,11 @@
-using Api.Common.Filters;
-using Api.Modules.Auth.Handlers;
-using Api.Modules.Auth.Requirements;
-using Api.Modules.Auth.Services;
+using Api.Application.Authorization.Handlers;
+using Api.Application.Authorization.Requirements;
+using Api.Application.Filters;
+using Api.Application.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,6 +53,17 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+
+//DB
+builder.Services.AddSingleton<IMongoClient>(
+    new MongoClient(builder.Configuration["Mongo:ConnectionString"])
+);
+builder.Services.AddSingleton<IMongoDatabase>(sp =>
+{
+    var client = sp.GetRequiredService<IMongoClient>();
+    return client.GetDatabase(builder.Configuration["Mongo:Database"]);
+});
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("ActiveUser", policy =>
@@ -59,6 +71,7 @@ builder.Services.AddAuthorization(options =>
 });
 builder.Services.AddSingleton<IAuthorizationHandler, ActiveUserHandler>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
 

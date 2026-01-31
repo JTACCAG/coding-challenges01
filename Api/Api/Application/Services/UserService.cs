@@ -1,4 +1,4 @@
-﻿namespace Api.Modules.User.Services
+﻿namespace Api.Application.Services
 {
     public class UserService
     {

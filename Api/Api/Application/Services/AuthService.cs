@@ -1,6 +1,6 @@
-﻿using Api.Modules.Auth.Dtos;
+﻿using Api.Application.DTOs;
 
-namespace Api.Modules.Auth.Services
+namespace Api.Application.Services
 {
     public class AuthService
     {

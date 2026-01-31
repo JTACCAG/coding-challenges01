@@ -1,4 +1,4 @@
-﻿namespace Api.Modules.Auth.Validators
+﻿namespace Api.Application.Validators
 {
     public class LoginDtoValidator
     {

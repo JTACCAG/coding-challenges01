@@ -1,7 +1,7 @@
-﻿using Api.Modules.Auth.Requirements;
+﻿using Api.Application.Authorization.Requirements;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Api.Modules.Auth.Handlers
+namespace Api.Application.Authorization.Handlers
 {
     public class ActiveUserHandler : AuthorizationHandler<ActiveUserRequirement>
     {

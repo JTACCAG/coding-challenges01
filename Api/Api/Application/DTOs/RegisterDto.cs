@@ -1,4 +1,4 @@
-﻿namespace Api.Modules.Auth.Dtos
+﻿namespace Api.Application.DTOs
 {
     public class RegisterDto
     {

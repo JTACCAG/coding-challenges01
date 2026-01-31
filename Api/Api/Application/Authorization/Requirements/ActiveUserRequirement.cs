@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace Api.Modules.Auth.Requirements
+namespace Api.Application.Authorization.Requirements
 {
     public class ActiveUserRequirement : IAuthorizationRequirement
     {

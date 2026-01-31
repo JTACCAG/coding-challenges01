@@ -1,4 +1,4 @@
-﻿namespace Api.Modules.User.Dtos
+﻿namespace Api.Application.DTOs
 {
     public class CreateUserDto
     {
