@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "admin": {
+    "Admin": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -32,11 +32,6 @@
             "styles": [
               "src/styles.scss"
             ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            },
             "polyfills": [
               "@angular/localize/init"
             ]
@@ -75,10 +70,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "admin:build:production"
+              "buildTarget": "Admin:build:production"
             },
             "development": {
-              "buildTarget": "admin:build:development"
+              "buildTarget": "Admin:build:development"
             }
           },
           "defaultConfiguration": "development"

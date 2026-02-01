@@ -16,9 +16,7 @@ export class NotFound {
   constructor(
     private router: Router,
     private authService: AuthService,
-  ) {
-    this.authService.restoreSession();
-  }
+  ) {}
 
   goHome() {
     if (this.authService.isAuthenticated) {

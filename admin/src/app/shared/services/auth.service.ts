@@ -8,7 +8,6 @@ import { UserData } from '../interfaces/user-data';
 export class AuthService {
   private platformId = inject(PLATFORM_ID);
   private _isAuthenticated = signal<boolean>(false);
-  authState = this._isAuthenticated.asReadonly();
 
   private get isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
@@ -49,7 +48,6 @@ export class AuthService {
   restoreSession(): void {
     if (!this.isBrowser) return;
     const token = localStorage.getItem('access_token');
-    console.log(token);
     if (token) {
       this._isAuthenticated.set(true);
     }

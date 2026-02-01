@@ -12,7 +12,9 @@
         <mat-label>Contraseña</mat-label>
         <input type="password" formControlName="password" matInput />
       </mat-form-field>
-      <button mat-raised-button color="primary" class="w-100 btn-lg">Iniciar sesión</button>
+      <button mat-raised-button color="primary" class="w-100 btn-lg" [disabled]="loading">
+        Iniciar sesión
+      </button>
     </form>
   </mat-card>
 </div>

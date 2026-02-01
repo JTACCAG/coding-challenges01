@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -28,7 +28,7 @@ import { LoadingService } from '../../shared/services/loading.service';
   templateUrl: './auth.html',
   styleUrl: './auth.scss',
 })
-export class Auth implements OnInit {
+export class Auth {
   private _snackBar = inject(MatSnackBar);
   private loadingService = inject(LoadingService);
   loading = false;
@@ -41,17 +41,10 @@ export class Auth implements OnInit {
     private readonly authService: AuthService,
     private readonly router: Router,
   ) {
-    this.authService.restoreSession();
     this.form = this.fb.group({
       email: ['jtaccag@gmail.com', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
-  }
-
-  ngOnInit(): void {
-    if (this.authService.isAuthenticated) {
-      this.router.navigate(['/admin']);
-    }
   }
 
   login() {
@@ -96,6 +89,8 @@ export class Auth implements OnInit {
       },
       complete: () => {
         this.loadingService.hide();
+        // this.router.navigate(['/admin']);
+        window.location.href = '/admin';
       },
     });
   }

@@ -1,4 +1,5 @@
-﻿using Api.Domain.Entities;
+﻿using Api.Application.Enums;
+using Api.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Application.DTOs
@@ -8,6 +9,8 @@ namespace Api.Application.DTOs
         public string Id { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Fullname { get; set; } = null!;
+
+        public RoleEnum Role { get; set; } = RoleEnum.Regular;
     }
 
     public class ResponseAuthDto

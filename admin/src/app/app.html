@@ -1,1 +1,48 @@
-<router-outlet></router-outlet>
+@if (isAuthenticated()) {
+  <mat-sidenav-container class="sidenav-container">
+    <!-- Sidebar -->
+    <mat-sidenav
+      #sidenav
+      mode="side"
+      opened
+      class="bg-light text-dark d-flex flex-column justify-content-between"
+    >
+      <div>
+        <h3 class="p-3">Mi App</h3>
+        <mat-nav-list>
+          <!-- Admin Links -->
+          @for (route of routes; track $index) {
+            <a
+              mat-list-item
+              [routerLink]="route.path"
+              routerLinkActive="active-link"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <mat-icon>{{ route.icon }}</mat-icon
+              >{{ route.label }}</a
+            >
+          }
+        </mat-nav-list>
+      </div>
+      <div class="p-3">
+        <button matButton="filled" class="w-100" (click)="logout()">Cerrar sesión</button>
+      </div>
+    </mat-sidenav>
+
+    <!-- Contenido principal -->
+    <mat-sidenav-content>
+      <mat-toolbar color="primary" class="d-md-none">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>Mi App</span>
+      </mat-toolbar>
+
+      <div class="p-3">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+} @else {
+  <router-outlet></router-outlet>
+}

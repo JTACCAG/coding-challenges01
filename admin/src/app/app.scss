@@ -1,0 +1,59 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* empuja el logout al fondo */
+}
+
+mat-sidenav mat-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  a {
+    font-weight: 500;
+    background-color: var(--mat-button-filled-label-text-color, var(--mat-sys-on-primary));
+    ::ng-deep .mdc-list-item__primary-text {
+      color: var(--mat-button-filled-container-color, var(--mat-sys-primary));
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}
+
+mat-sidenav mat-nav-list a.active-link {
+  font-weight: 500;
+  background-color: var(--mat-button-filled-container-color, var(--mat-sys-primary));
+  ::ng-deep .mdc-list-item__primary-text {
+    color: var(--mat-button-filled-label-text-color, var(--mat-sys-on-primary));
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+button {
+  font-weight: 600;
+}
+
+::ng-deep .mat-drawer-inner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+::ng-deep .mat-drawer.mat-drawer-opened.mat-drawer-opened {
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+  padding: 0 !important;
+}
+
+::ng-deep .mdc-snackbar__label {
+  padding: 0 !important;
+}

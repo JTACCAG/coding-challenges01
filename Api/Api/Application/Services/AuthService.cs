@@ -34,7 +34,8 @@ namespace Api.Application.Services
                 User = new UserDto{
                     Id= user.Id,
                     Email = user.Email,
-                    Fullname = user.Fullname
+                    Fullname = user.Fullname,
+                    Role = user.Role
                 },
             };
         }
