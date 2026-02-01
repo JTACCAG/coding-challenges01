@@ -1,19 +1,26 @@
 ﻿using Api.Application.DTOs;
+using Api.Application.Repositories;
+using System.Threading.Tasks;
 
 namespace Api.Application.Services
 {
     public class AuthService
     {
-        public ResponseAuthDto Login(LoginDto dto)
+        private readonly UserService _userService;
+
+        public AuthService(UserService userService)
         {
-            if (dto.Email != "test@test.com" || dto.Password != "123456")
-            {
-                throw new UnauthorizedAccessException("Credenciales inválidas");
-            }
+            _userService = userService;
+        }
+
+        public async Task<ResponseAuthDto> Login(LoginDto dto)
+        {
+            var user = await _userService.GetByEmail(dto.Email);
 
             return new ResponseAuthDto
             {
-                AccessToken = "a"
+                AccessToken = "a",
+                User = user!,
             };
         }
     }

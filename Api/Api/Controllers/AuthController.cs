@@ -10,9 +10,9 @@ namespace Api.Controllers
     public class AuthController(AuthService authService) : ControllerBase
     {
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginDto dto)
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            ResponseAuthDto response = authService.Login(dto);
+            var response = await authService.Login(dto);
 
             return Ok(response);
         }

@@ -8,6 +8,7 @@ namespace Api.Application.Filters
     {
         public void OnException(ExceptionContext context)
         {
+            Console.WriteLine("🔥 GLOBAL EXCEPTION FILTER EJECUTADO");
             int statusCode = (int)HttpStatusCode.InternalServerError;
             string message = "Error interno del servidor";
 

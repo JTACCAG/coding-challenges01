@@ -1,21 +1,19 @@
 using Api.Application.Authorization.Handlers;
 using Api.Application.Authorization.Requirements;
-using Api.Application.Filters;
+using Api.Application.Middlewares;
+using Api.Application.Repositories;
 using Api.Application.Services;
+using Api.Infrastructure.Mongo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
-using MongoDB.Driver;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<GlobalExceptionFilter>();
-});
+builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -55,23 +53,19 @@ builder.Services.AddAuthentication(options =>
 
 
 //DB
-builder.Services.AddSingleton<IMongoClient>(
-    new MongoClient(builder.Configuration["Mongo:ConnectionString"])
+builder.Services.Configure<MongoSettings>(
+    builder.Configuration.GetSection("Mongo")
 );
-builder.Services.AddSingleton<IMongoDatabase>(sp =>
-{
-    var client = sp.GetRequiredService<IMongoClient>();
-    return client.GetDatabase(builder.Configuration["Mongo:Database"]);
-});
+builder.Services.AddSingleton<MongoService>();
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("ActiveUser", policy =>
+//Guard
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("ActiveUser", policy =>
         policy.Requirements.Add(new ActiveUserRequirement()));
-});
 builder.Services.AddSingleton<IAuthorizationHandler, ActiveUserHandler>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<UserRepository>();
 
 var app = builder.Build();
 
@@ -85,6 +79,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseAuthentication();
 
