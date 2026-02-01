@@ -1,4 +1,5 @@
-﻿using Api.Infrastructure.Mongo;
+﻿using Api.Application.Enums;
+using Api.Infrastructure.Mongo;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -31,6 +32,6 @@ namespace Api.Domain.Entities
         public DateTime UpdatedAt { get; set; }
 
         [BsonElement("role")]
-        public string Role { get; set; } = null!;
+        public RoleEnum Role { get; set; } = RoleEnum.Regular;
     }
 }

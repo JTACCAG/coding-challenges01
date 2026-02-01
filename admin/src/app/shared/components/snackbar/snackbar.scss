@@ -1,0 +1,70 @@
+.snackbar-success-message {
+  background: linear-gradient(135deg, rgba(129, 199, 132, 0.85), rgba(165, 214, 167, 0.85));
+  color: #1b5e20;
+
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(3px);
+
+  mat-icon {
+    color: #2e7d32;
+  }
+}
+
+.snackbar-warning-message {
+  background: linear-gradient(135deg, rgba(255, 224, 130, 0.85), rgba(255, 213, 79, 0.85));
+  color: #5d4037;
+
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(3px);
+
+  mat-icon {
+    color: #f57f17;
+  }
+}
+
+.snackbar-error-message {
+  background: linear-gradient(135deg, rgba(239, 154, 154, 0.85), rgba(229, 115, 115, 0.85));
+  color: #b71c1c;
+
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(3px);
+
+  mat-icon {
+    color: #c62828;
+  }
+}
+
+.snackbar-info-message {
+  background: linear-gradient(135deg, rgba(144, 202, 249, 0.85), rgba(100, 181, 246, 0.85));
+  color: #0d47a1;
+
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(3px);
+
+  mat-icon {
+    color: #1565c0;
+  }
+}

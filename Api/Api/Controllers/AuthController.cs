@@ -12,8 +12,8 @@ namespace Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            var response = await authService.Login(dto);
-
+            var data = await authService.Login(dto);
+            var response = DefaultResponse.SendOk<ResponseAuthDto>("Todo correcto", data);
             return Ok(response);
         }
     }

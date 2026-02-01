@@ -1,0 +1,17 @@
+.not-found-page {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+mat-card {
+  max-width: 400px;
+  width: 100%;
+  background-color: #ffffffcc; /* blanco semi-transparente */
+}
+h1 {
+  font-weight: 700;
+}
+h2 {
+  font-weight: 400;
+}
+button {
+  margin-top: 1rem;
+}

@@ -27,13 +27,10 @@ namespace Api.Application.Repositories
             ProjectionDefinition<User>? project = null
         )
         {
-            Console.WriteLine("FindOne");
             var user = await _model.Find(Builders<User>.Filter.Empty).FirstOrDefaultAsync();
-            Console.WriteLine(user?.Id);
             var query = _model.Find(match);
             if (project != null)
             {
-                Console.WriteLine("project");
                 query = query.Project<User>(project);
             }
             return await query.FirstOrDefaultAsync();

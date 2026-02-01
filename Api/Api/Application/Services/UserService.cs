@@ -22,7 +22,12 @@ namespace Api.Application.Services
             var filter = Builders<User>.Filter.And(
                 Builders<User>.Filter.Eq(u => u.Email, email)
             );
-            return await _userRepository.FindOne(filter);
+            var projection = Builders<User>.Projection
+                .Include(u => u.Email)
+                .Include(u => u.Fullname)
+                .Include(u => u.Password)
+                .Include(u => u.Role);
+            return await _userRepository.FindOne(filter, projection);
         }
     }
 }

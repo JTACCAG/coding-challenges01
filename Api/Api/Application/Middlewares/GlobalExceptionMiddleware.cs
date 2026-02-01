@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Api.Application.DTOs;
+using System.Net;
 using System.Text.Json;
 
 namespace Api.Application.Middlewares
@@ -29,25 +30,35 @@ namespace Api.Application.Middlewares
                 context.Response.Clear();
                 context.Response.ContentType = "application/json";
 
-                // Mapear excepción a statusCode y mensaje
-                var (statusCode, message) = ex switch
+                ResponseDto<object> response;
+
+                // Mapear la excepción al tipo de respuesta adecuada
+                switch (ex)
                 {
-                    UnauthorizedAccessException _ => (StatusCodes.Status401Unauthorized, ex.Message),
-                    KeyNotFoundException _ => (StatusCodes.Status404NotFound, ex.Message),
-                    ArgumentException _ => (StatusCodes.Status400BadRequest, ex.Message),
-                    _ => (StatusCodes.Status500InternalServerError, "Error interno del servidor")
+                    case UnauthorizedAccessException:
+                        response = DefaultResponse.SendUnauthorized<object>(ex.Message);
+                        break;
+                    case KeyNotFoundException:
+                        response = DefaultResponse.SendNotFound<object>(ex.Message);
+                        break;
+                    case ArgumentException:
+                        response = DefaultResponse.SendBadRequest<object>(ex.Message);
+                        break;
+                    default:
+                        response = DefaultResponse.SendBadRequest<object>("Error interno del servidor");
+                        break;
+                }
+
+                context.Response.StatusCode = response.StatusCode;
+
+                // Serializar JSON en camelCase para que "Success" sea "success"
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    WriteIndented = true // opcional, solo para ver mejor en el navegador
                 };
 
-                context.Response.StatusCode = statusCode;
-
-                // Serializar JSON equivalente a JSON.stringify
-                var json = System.Text.Json.JsonSerializer.Serialize(new
-                {
-                    success = false,
-                    statusCode,
-                    message,
-                    timestamp = DateTime.UtcNow
-                });
+                var json = JsonSerializer.Serialize(response, options);
 
                 await context.Response.WriteAsync(json);
             }

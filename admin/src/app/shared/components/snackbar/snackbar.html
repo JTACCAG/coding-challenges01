@@ -1,0 +1,11 @@
+<div [ngClass]="messageClass">
+  <mat-icon>{{ icon }}</mat-icon>
+
+  <span class="message">
+    {{ data.message }}
+  </span>
+
+  <button mat-icon-button class="close-btn" aria-label="Cerrar" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
