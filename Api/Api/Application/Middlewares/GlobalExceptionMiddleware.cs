@@ -1,4 +1,5 @@
 ﻿using Api.Application.DTOs;
+using Api.Application.Exceptions;
 using System.Net;
 using System.Text.Json;
 
@@ -33,20 +34,44 @@ namespace Api.Application.Middlewares
                 ResponseDto<object> response;
 
                 // Mapear la excepción al tipo de respuesta adecuada
-                switch (ex)
+                if (ex is HttpException httpEx)
                 {
-                    case UnauthorizedAccessException:
-                        response = DefaultResponse.SendUnauthorized<object>(ex.Message);
-                        break;
-                    case KeyNotFoundException:
-                        response = DefaultResponse.SendNotFound<object>(ex.Message);
-                        break;
-                    case ArgumentException:
-                        response = DefaultResponse.SendBadRequest<object>(ex.Message);
-                        break;
-                    default:
-                        response = DefaultResponse.SendBadRequest<object>("Error interno del servidor");
-                        break;
+                    response = httpEx.StatusCode switch
+                    {
+                        StatusCodes.Status400BadRequest =>
+                            DefaultResponse.SendBadRequest<object>(httpEx.Message),
+
+                        StatusCodes.Status401Unauthorized =>
+                            DefaultResponse.SendUnauthorized<object>(httpEx.Message),
+
+                        StatusCodes.Status403Forbidden =>
+                            DefaultResponse.SendForbidden<object>(httpEx.Message),
+
+                        StatusCodes.Status404NotFound =>
+                            DefaultResponse.SendNotFound<object>(httpEx.Message),
+
+                        StatusCodes.Status409Conflict =>
+                            DefaultResponse.SendConflict<object>(httpEx.Message),
+
+                        StatusCodes.Status422UnprocessableEntity =>
+                            new ResponseDto<object>
+                            {
+                                Success = false,
+                                Message = httpEx.Message,
+                                Data = null,
+                                StatusCode = StatusCodes.Status422UnprocessableEntity
+                            },
+
+                        _ =>
+                            DefaultResponse.SendBadRequest<object>("Error no manejado")
+                    };
+                }
+                else
+                {
+                    // 🟡 Excepciones del framework / no controladas
+                    response = DefaultResponse.SendBadRequest<object>(
+                        "Error interno del servidor"
+                    );
                 }
 
                 context.Response.StatusCode = response.StatusCode;

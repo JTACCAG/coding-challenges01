@@ -1,12 +1,11 @@
 ﻿using Api.Application.DTOs;
 using Api.Application.Enums;
-using Api.Application.Repositories;
+using Api.Application.Exceptions;
 using Api.Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Api.Application.Services
 {
@@ -23,10 +22,10 @@ namespace Api.Application.Services
 
         public async Task<ResponseAuthDto> Login(LoginDto dto)
         {
-            var user = await _userService.GetByEmail(dto.Email) ?? throw new UnauthorizedAccessException("El correo electrónico proporcionado no se encuentra registrado en nuestro sistema");
+            var user = await _userService.GetByEmail(dto.Email) ?? throw new UnauthorizedException("El correo electrónico proporcionado no se encuentra registrado en nuestro sistema");
             var isEqual = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
             if (!isEqual)
-                throw new UnauthorizedAccessException("La contraseña proporcionada es incorrecta. Por favor, verifica tus datos e inténtalo de nuevo");
+                throw new UnauthorizedException("La contraseña proporcionada es incorrecta. Por favor, verifica tus datos e inténtalo de nuevo");
             user.Password = null!;
             return new ResponseAuthDto
             {

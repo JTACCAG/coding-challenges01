@@ -27,7 +27,6 @@ namespace Api.Application.Repositories
             ProjectionDefinition<User>? project = null
         )
         {
-            var user = await _model.Find(Builders<User>.Filter.Empty).FirstOrDefaultAsync();
             var query = _model.Find(match);
             if (project != null)
             {

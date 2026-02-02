@@ -65,7 +65,11 @@ builder.Services.AddAuthorizationBuilder()
 builder.Services.AddSingleton<IAuthorizationHandler, ActiveUserHandler>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddScoped<ProductRepository>();
 
 var app = builder.Build();
 
