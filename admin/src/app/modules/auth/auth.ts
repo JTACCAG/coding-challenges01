@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Snackbar } from '../../shared/components/snackbar/snackbar';
 import { IResponseApi } from '../../shared/interfaces/response-api';
 import { AuthService } from '../../shared/services/auth.service';
@@ -24,11 +24,12 @@ import { LoadingService } from '../../shared/services/loading.service';
     MatCardModule,
     MatButtonModule,
     ReactiveFormsModule,
+    RouterLink,
   ],
   templateUrl: './auth.html',
   styleUrl: './auth.scss',
 })
-export class Auth {
+export class Auth implements OnInit {
   private _snackBar = inject(MatSnackBar);
   private loadingService = inject(LoadingService);
   loading = false;
@@ -45,6 +46,9 @@ export class Auth {
       email: ['jtaccag@gmail.com', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
+  }
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated) this.router.navigate(['/admin']);
   }
 
   login() {

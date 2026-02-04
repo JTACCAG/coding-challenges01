@@ -57,3 +57,18 @@ button {
 ::ng-deep .mdc-snackbar__label {
   padding: 0 !important;
 }
+
+.card-body ::ng-deep .mat-mdc-card-outlined {
+  background-color: white;
+}
+
+.list-not {
+  ::ng-deep .mdc-list-item__primary-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  ::ng-deep .mdc-list-item.mdc-list-item--with-one-line {
+    height: auto;
+  }
+}

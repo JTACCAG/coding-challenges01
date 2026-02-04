@@ -15,6 +15,12 @@ export const APP_ROUTES: AppRoute[] = [
     roles: [RoleEnum.Admin, RoleEnum.Regular],
   },
   {
+    icon: 'person',
+    path: '/admin/user',
+    label: 'User',
+    roles: [RoleEnum.Admin],
+  },
+  {
     icon: 'inventory_2',
     path: '/admin/inventory',
     label: 'Inventory',
@@ -25,11 +31,5 @@ export const APP_ROUTES: AppRoute[] = [
     path: '/admin/account',
     label: 'Account',
     roles: [RoleEnum.Regular],
-  },
-  {
-    icon: 'person',
-    path: '/admin/user',
-    label: 'User',
-    roles: [RoleEnum.Admin],
   },
 ];

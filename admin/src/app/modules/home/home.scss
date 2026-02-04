@@ -1,0 +1,22 @@
+.low-stock-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.low-stock-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.icon-warning {
+  color: var(--mat-sys-tertiary);
+}
+
+.btn-warning {
+  color: var(--mat-sys-tertiary);
+  border-color: var(--mat-sys-tertiary);
+  align-self: flex-start;
+}

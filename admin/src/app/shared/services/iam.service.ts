@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { IResponseApi } from '../interfaces/response-api';
+import { IUser } from '../interfaces/user';
 import { UserData } from '../interfaces/user-data';
 
 @Injectable({
@@ -19,6 +20,13 @@ export class IamService {
         email,
         password,
       },
+    );
+  }
+
+  register(user: IUser) {
+    return this.http.post<IResponseApi<{ accessToken: string; user: UserData }>>(
+      `${this.url}/auth/register`,
+      user,
     );
   }
 

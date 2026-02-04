@@ -23,12 +23,12 @@ namespace Api.Application.Repositories
         }
 
         public async Task<List<Category>> FindAll(
-            FilterDefinition<Category> match,
+            FilterDefinition<Category>? match = null,
             ProjectionDefinition<Category>? project = null,
             SortDefinition<Category>? sort = null
          )
         {
-            var query = _model.Find(match);
+            var query = match is not null ? _model.Find(match) : _model.Find(_ => true);
             if (project is not null)
                 query = query.Project<Category>(project);
             if (sort is not null)

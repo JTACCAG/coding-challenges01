@@ -20,6 +20,24 @@ namespace Api.Application.Services
             _jwtKey = configuration["JwtConfig:Key"]!;
         }
 
+        public async Task<ResponseAuthDto> Register(CreateUserDto dto)
+        {
+            await _userService.ValidateByEmail(dto.Email);
+            dto.Password = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+            var user = await _userService.Created(dto);
+            return new ResponseAuthDto
+            {
+                AccessToken = await GenerateToken(user, user.Role),
+                User = new UserDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Fullname = user.Fullname,
+                    Role = user.Role
+                },
+            };
+        }
+
         public async Task<ResponseAuthDto> Login(LoginDto dto)
         {
             var user = await _userService.GetByEmail(dto.Email) ?? throw new UnauthorizedException("El correo electrónico proporcionado no se encuentra registrado en nuestro sistema");

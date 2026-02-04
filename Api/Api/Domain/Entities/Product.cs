@@ -38,5 +38,9 @@ namespace Api.Domain.Entities
 
         [BsonElement("updatedAt")]
         public DateTime UpdatedAt { get; set; }
+
+        [BsonElement("reportedAt")]
+        [BsonIgnoreIfNull]
+        public DateTime ReportedAt { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 using Api.Application.Authorization.Handlers;
 using Api.Application.Authorization.Requirements;
+using Api.Application.Enums;
 using Api.Application.Middlewares;
 using Api.Application.Repositories;
 using Api.Application.Services;
@@ -7,6 +8,7 @@ using Api.Infrastructure.Mongo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using QuestPDF.Infrastructure;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,8 +46,8 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["JwtConfig:Issuer"],
         ValidAudience = builder.Configuration["JwtConfig:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Key"]!)),
-        ValidateIssuer = true,
-        ValidateAudience = true,
+        ValidateIssuer = false,
+        ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
     };
@@ -57,19 +59,33 @@ builder.Services.Configure<MongoSettings>(
     builder.Configuration.GetSection("Mongo")
 );
 builder.Services.AddSingleton<MongoService>();
+builder.Services.AddHttpContextAccessor();
 
 //Guard
 builder.Services.AddAuthorizationBuilder()
-    .AddPolicy("ActiveUser", policy =>
-        policy.Requirements.Add(new ActiveUserRequirement()));
-builder.Services.AddSingleton<IAuthorizationHandler, ActiveUserHandler>();
+    .AddPolicy("ActiveUser", policy => {
+            policy.Requirements.Add(new ActiveUserRequirement());
+        }
+    ).AddPolicy("AdminActive", policy =>
+    {
+        policy.Requirements.Add(new ActiveUserRequirement());
+        policy.Requirements.Add(new RoleRequirement(RoleEnum.Admin));
+    });
+
+builder.Services.AddScoped<IAuthorizationHandler, ActiveUserHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, RoleHandler>();
+
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ReportService>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ReportRepository>();
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var app = builder.Build();
 

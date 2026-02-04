@@ -1,0 +1,59 @@
+<mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row g-3">
+      <!-- NAME -->
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+      </div>
+
+      <!-- PRICE -->
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Precio</mat-label>
+          <input matInput type="number" formControlName="price" />
+        </mat-form-field>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="col-12">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput rows="3" formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+
+      <!-- STOCK -->
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Stock</mat-label>
+          <input matInput type="number" formControlName="stockQuantity" min="0" step="1" />
+        </mat-form-field>
+      </div>
+
+      <!-- CATEGORIES -->
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Categorías</mat-label>
+          <mat-select formControlName="categoryIds" multiple>
+            @for (c of categories(); track $index) {
+              <mat-option [value]="c.id">
+                {{ c.name }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-end gap-2">
+  <button type="button" class="btn btn-outline-secondary" (click)="close()" [disabled]="loading">
+    Cancelar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="loading">
+    {{ type() === 1 ? 'Agregar' : 'Editar' }}
+  </button>
+</mat-dialog-actions>

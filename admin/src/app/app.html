@@ -38,8 +38,55 @@
         <span>Mi App</span>
       </mat-toolbar>
 
-      <div class="p-3">
-        <router-outlet></router-outlet>
+      <div
+        class="shadow d-flex align-items-center justify-content-between px-2"
+        style="min-height: 60px"
+      >
+        <div><h1>My Home</h1></div>
+        @if (user()?.role === roleEnum.Admin) {
+          <button
+            mat-icon-button
+            class="btn-warning"
+            matTooltip="Inventario bajo"
+            [matBadge]="lengthReport"
+            [matMenuTriggerFor]="menu"
+          >
+            <mat-icon>notifications</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <mat-list class="list-not">
+              @for (obs of reports(); track $index) {
+                <mat-list-item>
+                  <div class="d-flex flex-row align-items-center">
+                    <mat-icon matListIcon> notification_important </mat-icon>
+                    <span>
+                      {{ obs.reason }}
+                    </span>
+                  </div>
+                  <div class="d-flex flex-column">
+                    <span class="text-muted small">
+                      Producto:
+                      <strong>{{ obs.product?.name }}</strong>
+                    </span>
+                    <span class="text-muted small">
+                      Reportado por
+                      <strong>{{ obs.user?.fullname }}</strong>
+                    </span>
+                  </div>
+                  <div matLine class="text-muted small">Hace {{ timeAgo(obs.createdAt!) }}</div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+              }
+            </mat-list>
+          </mat-menu>
+        }
+      </div>
+      <div class="p-3 card-body">
+        <mat-card appearance="outlined">
+          <mat-card-content>
+            <router-outlet></router-outlet>
+          </mat-card-content>
+        </mat-card>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

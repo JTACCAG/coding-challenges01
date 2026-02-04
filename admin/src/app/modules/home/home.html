@@ -1,1 +1,13 @@
-<p>home works!</p>
+<div class="low-stock-section">
+  <div class="low-stock-header">
+    <mat-icon class="icon-warning">warning</mat-icon>
+    <span>Inventario bajo</span>
+  </div>
+
+  <p class="low-stock-description">Descarga el reporte de productos con stock crítico.</p>
+
+  <button mat-stroked-button class="btn-warning" (click)="downloadLowStock()">
+    <mat-icon>download</mat-icon>
+    Descargar reporte
+  </button>
+</div>
