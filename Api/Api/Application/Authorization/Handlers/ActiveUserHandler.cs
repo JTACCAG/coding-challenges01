@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace Api.Application.Authorization.Handlers
 {
-    public class ActiveUserHandler(UserService _userService, IHttpContextAccessor _httpContextAccessor) : AuthorizationHandler<ActiveUserRequirement>
+    public class ActiveUserHandler(IUserService _userService, IHttpContextAccessor _httpContextAccessor) : AuthorizationHandler<ActiveUserRequirement>
     {
         protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context,

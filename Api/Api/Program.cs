@@ -75,15 +75,16 @@ builder.Services.AddAuthorizationBuilder()
 builder.Services.AddScoped<IAuthorizationHandler, ActiveUserHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, RoleHandler>();
 
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<CategoryService>();
-builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<ReportService>();
-builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<ReportRepository>();
+
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ReportService>();
 
 QuestPDF.Settings.License = LicenseType.Community;
 

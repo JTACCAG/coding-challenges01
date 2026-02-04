@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace Api.Application.Repositories
 {
-    public class UserRepository(MongoService mongo)
+    public class UserRepository(MongoService mongo) : IUserRepository
     {
         private readonly IMongoCollection<User> _model = mongo.GetCollection<User>();
 

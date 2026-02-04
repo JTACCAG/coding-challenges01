@@ -11,10 +11,10 @@ namespace Api.Application.Services
 {
     public class AuthService
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
         private readonly string _jwtKey;
 
-        public AuthService(UserService userService, IConfiguration configuration)
+        public AuthService(IUserService userService, IConfiguration configuration)
         {
             _userService = userService;
             _jwtKey = configuration["JwtConfig:Key"]!;

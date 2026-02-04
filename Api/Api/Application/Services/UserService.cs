@@ -9,11 +9,11 @@ using MongoDB.Driver;
 
 namespace Api.Application.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public UserService(UserRepository userRepository)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -42,6 +42,8 @@ namespace Api.Application.Services
                 Builders<User>.Filter.Eq(u => u.Id, id)
             );
             var user = await _userRepository.FindOne(filter);
+            if (user == null)
+                return null;
             return user;
         }
 
@@ -57,6 +59,11 @@ namespace Api.Application.Services
                 .Include(u => u.Password)
                 .Include(u => u.Role);
             return await _userRepository.FindOne(filter, projection);
+        }
+
+        public Task<User> Create(CreateUserDto dto)
+        {
+            throw new NotImplementedException();
         }
     }
 }
