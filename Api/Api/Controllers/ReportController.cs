@@ -13,7 +13,6 @@ namespace Api.Controllers
     [ApiController]
     public class ReportController(ReportService service) : ControllerBase
     {
-        [Authorize(Policy = "AdminActive")]
         [HttpPost("")]
         public async Task<IActionResult> Report([FromBody] CreateReportDto dto)
         {

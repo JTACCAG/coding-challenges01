@@ -3,6 +3,7 @@ using Api.Domain.ValueObjects;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Api.Application.Services
 {
@@ -29,8 +30,11 @@ namespace Api.Application.Services
                 page.Content().Element(Content);
                 page.Footer().AlignCenter().Text(x =>
                 {
-                    x.Span("Reporte generado el ");
-                    x.Span(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+                    //x.Span("Reporte generado el ");
+                    //x.Span(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+                    x.CurrentPageNumber();
+                    x.Span(" / ");
+                    x.TotalPages();
                 });
             });
         }
@@ -61,6 +65,7 @@ namespace Api.Application.Services
                     columns.RelativeColumn(4);
                     columns.RelativeColumn(2);
                     columns.RelativeColumn(2);
+                    columns.RelativeColumn(2);
                 });
 
                 table.Header(header =>
@@ -69,6 +74,7 @@ namespace Api.Application.Services
                     header.Cell().Element(CellHeader).Text("Descripción").Bold();
                     header.Cell().Element(CellHeader).Text("Precio").Bold();
                     header.Cell().Element(CellHeader).Text("Stock").Bold();
+                    header.Cell().Element(CellHeader).Text("Fecha creacion").Bold();
 
                     static IContainer CellHeader(IContainer container) =>
                         container.Padding(5).Background(Colors.Grey.Lighten3).BorderBottom(1);
@@ -80,6 +86,12 @@ namespace Api.Application.Services
                     table.Cell().Element(Cell).Text(p.Product.Description);
                     table.Cell().Element(Cell).AlignRight().Text(p.Product.Price.ToString());
                     table.Cell().Element(Cell).AlignRight().Text(p.Product.StockQuantity.ToString());
+                    var fecha = p.Product.CreatedAt.ToString().Substring(0,10);
+                    var day = fecha.Split('/')[0];
+                    var month = fecha.Split('/')[1];
+                    var year = fecha.Split('/')[2];
+
+                    table.Cell().Element(Cell).AlignRight().Text(month + '-' + day + '-' + year);
                 }
 
                 static IContainer Cell(IContainer container) =>

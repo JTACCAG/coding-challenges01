@@ -1,15 +1,17 @@
 version: "3.9"
 
 services:
-  admin:
-    build:
-      context: ./admin
-      dockerfile: Dockerfile
-    container_name: admin-app
+  mongo:
+    image: mongo:6.0
+    container_name: mongo-db
     ports:
-      - "4200:80"
-    depends_on:
-      - api
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: mydb
+    volumes:
+      - mongo_data:/data/db
 
   api:
     build:
@@ -20,3 +22,19 @@ services:
       - "5000:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - MONGO_CONNECTION_STRING=mongodb://root:example@mongo:27017/mydb?authSource=admin
+    depends_on:
+      - mongo
+
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    container_name: admin-app
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+
+volumes:
+  mongo_data:
